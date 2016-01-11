@@ -18,7 +18,54 @@ struct node {
 	int num;
 	struct node *next;
 };
-
+struct node * insert(struct node * head, int data);
+void insertAtCurrent(struct node *cur, int data);
+struct node* insertAtHead(struct node*head, int data);
 struct node * insertAtEveryKthNode(struct node *head, int K) {
+	if (head){
+		return insert(head, K);
+	}
 	return NULL;
+}
+struct node * insert(struct node * head, int data){
+	struct node *cur;
+	cur = (struct node *)malloc(sizeof(struct node));
+	cur = head;
+		do{
+			if (cur->num == data){
+				insertAtCurrent(cur, data);
+				break;
+			}
+			else if (head->num > data){
+				head = insertAtHead(head, data);
+				break;
+			}
+			else if ((cur->next != NULL) && (cur->num<data) && (cur->next->num>data)){
+				insertAtCurrent(cur, data);
+				break;
+			}
+			else if (cur->next != head){
+				cur = cur->next;
+			}
+			else if ((cur->num < data) && (cur->next == head)){
+				insertAtCurrent(cur, data);
+				break;
+			}
+		} while (cur != head);
+		return head;
+}
+void insertAtCurrent(struct node *cur, int data){
+	struct node *temp;
+	temp = (struct node*)malloc(sizeof(struct node));
+	temp->num = data;
+	temp->next = cur->next;
+	cur->next = temp;
+}
+struct node* insertAtHead(struct node*head, int data){
+	struct node *temp;
+	temp = (struct node*)malloc(sizeof(struct node));
+	temp->num = data;
+	temp->next = head;
+	head = temp;
+	return head;
 }

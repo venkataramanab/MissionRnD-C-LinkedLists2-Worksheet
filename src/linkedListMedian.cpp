@@ -18,7 +18,23 @@ struct node {
 	int num;
 	struct node *next;
 };
-
+int median(struct node *head, struct node *ptr1, struct node *ptr2);
 int linkedListMedian(struct node *head) {
+	if (head){
+		return median(head, head, head);
+	}
 	return -1;
+}
+int median(struct node *head, struct node *ptr1, struct node *ptr2){
+	if (ptr2->next){
+		if (ptr2->next->next){
+			return median(head, ptr1->next, ptr2->next->next);
+		}
+		else{
+			return (ptr1->num + ptr1->next->num) / 2;
+		}
+	}
+	else{
+		return ptr1->num;
+	}
 }
